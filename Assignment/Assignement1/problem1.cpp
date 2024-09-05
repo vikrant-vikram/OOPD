@@ -1,94 +1,105 @@
+#include <cstdio>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <vector>
 #include <string>
 #include <cmath>
 #include <iomanip>
+
+const int numYears = 40;
+
+const int baseYear = 2000;
+
 using namespace std;
 
-const int MAX_YEARS = 30;
+class Property{
+    private :
+        double** data;
+    public:
+
+        Property(){
+            data = new double*[numYears];
+            for (int i = 0; i < numYears; i++) {
+                data[i] = new double[2];  // Pair of inflation rate and property rate for each year
+            }
+            ifstream file("price-inflation.csv");
+            if (!file.is_open()) {
+                throw out_of_range("Error opening file.");
+            }
+            string line;
+            int year = baseYear;
+            stringstream ss;
+            getline(file,line);
+            while (std::getline(file, line) ) {
+                stringstream ss(line);
+                // cout<<ss.str();
+                string input = ss.str();
+                size_t pos1 = input.find(',');
+                size_t pos2 = input.find(',', pos1 + 1);
+
+                string value1 = input.substr(0, pos1);
 
 
-class InflationRate {
-private:
-    double rates[MAX_YEARS];
+                double grouth = stod(input.substr(pos1 + 1, pos2 - pos1 - 1));
+                double inflation = stod(input.substr(pos2 + 1));
+                pos1 = value1.find("-");
+                year = stoi(value1.substr(0,pos1));
 
-public:
-    void loadRates(const string& filename) {
-        ifstream file(filename);
-        for (int i = 0; i < MAX_YEARS; ++i) {
-            if (!(file >> rates[i])) {
-                throw runtime_error("Not enough data in file");
+                // cout << value1 << std::endl;
+                // cout << value2 << std::endl;
+                // cout << value3 << std::endl;
+
+
+                data[year - baseYear][0] = grouth;
+                data[year - baseYear][1] = inflation;
+                cout<<year << " Grouth Price :"<<grouth<<" Inflation :" <<inflation<<endl;
+                // year++;
             }
         }
-    }
+        double getInflationRateTill(int sellingYear){
 
-    double getRate(int year) const {
-        if (year < 2001 || year > 2030) {
-            throw out_of_range("Year out of range");
+            return data[sellingYear - baseYear][1];
         }
-        return rates[year - 2001];
-    }
+        double getGrouthPrice( int sellingYear){
+            return data[sellingYear - baseYear][0];
+        }
+};
+
+class Inflation{
+    private:
+        double purchasedAT;
+    public:
+        Inflation(double purchasedAt){
+            purchasedAt = purchasedAt;
+        }
+
+        double calculateSellingPrice( int year , Property p) {
+            double sellAt = purchasedAT;
+            int current = 2010;
+            double temp = 0;
+            while (  current <= year) {
+                cout<<temp<< "Year "<< current << " Grouth "<<p.getGrouthPrice(current) << " Inflation "<<p.getInflationRateTill(current) <<endl;
+                sellAt= sellAt *(1+((p.getGrouthPrice(current) - p.getInflationRateTill(current))/100));
+                current+=1;
+            }
+            return sellAt;
+        }
+
+
 };
 
 
-class TaxRate {
-private:
-    double rate;
 
-public:
-    TaxRate(double r) : rate(r) {}
-    double getRate() const { return rate; }
-};
 
-double calculateSellingPrice(double initialPrice, int buyYear, int sellYear, const InflationRate& inflation) {
-    double price = initialPrice;
-    for (int year = buyYear; year < sellYear; ++year) {
-        double propertyIncrease = 0.15; // 15% per annum
-        double inflationRate = inflation.getRate(year);
-        price *= (1 + (propertyIncrease - inflationRate) / 100);
-    }
-    return price;
-}
-
-double calculateLTCG(double sellingPrice, double costPrice, const TaxRate& taxRate) {
-    double profit = sellingPrice - costPrice;
-    return profit * taxRate.getRate();
-}
 
 int main() {
-    InflationRate inflation;
-    inflation.loadRates("inflation_rates.csv");
-
-    TaxRate oldTaxRate(0.20);
-    TaxRate newTaxRate(0.125);
-
-    double initialPrice = 5000000; // 50 lakhs
-    int buyYear = 2010;
-
-    int sellYear;
-    cout << "Enter the year of selling (between 2011 and 2030): ";
-    cin >> sellYear;
-
-    if (sellYear <= buyYear || sellYear > 2030) {
-        cout << "Invalid selling year. It should be between 2011 and 2030." << endl;
-        return 1;
-    }
-
-    double sellingPrice = calculateSellingPrice(initialPrice, buyYear, sellYear, inflation);
-    double oldLTCG = calculateLTCG(sellingPrice, initialPrice, oldTaxRate);
-
-    double newSellingPrice = sellingPrice; // No inflation adjustment in new scheme
-    double newLTCG = calculateLTCG(newSellingPrice, initialPrice, newTaxRate);
-
-    cout << fixed << setprecision(2);
-    cout << "Estimated selling price: Rs. " << sellingPrice << endl;
-    cout << "Old LTCG scheme tax: Rs. " << oldLTCG << endl;
-    cout << "New LTCG scheme tax: Rs. " << newLTCG << endl;
-
-    double difference = newLTCG - oldLTCG;
-    cout << "Difference in tax (New - Old): Rs. " << difference << endl;
-    cout << "The " << (difference > 0 ? "new" : "old") << " scheme leads to higher taxes by Rs. " << abs(difference) << endl;
-
+    Property property;
+    int year;
+    double at;
+    cin >> year;
+    cin>>at;
+    Inflation inf(at);
+    cout<<inf.calculateSellingPrice(year,property)<<endl;
     return 0;
 }
