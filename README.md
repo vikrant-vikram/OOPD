@@ -1,8 +1,16 @@
-# Q1
-# take user input and pass to functions then execute the following using GitBash
+<div id="header" align="center">
+  <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExN3NrNno1bXdkMHEydXp1MmUwcjQwNnhwMmY2eXF3YzR1bXh0cGxjMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/0vTOscboHgOyBSuK4r/giphy.gif" width="250"/>
+</div>
 
-test :
-# Question 1
+
+
+
+<h1 align="center" >
+  Problem 1
+</h1>
+
+#### Pass all values to the program while execution
+##### Since Provided range in CSV file is in between 2001 and 2029 so INPUT for the year should also be between the range OtherWise Error will be throwen with error message "Year our of Bound"
 	g++ -c problem1.cpp
 	g++ -g -o debug1 problem1.o
 	g++ -O3 -o optimize1 problem1.o
@@ -10,19 +18,18 @@ test :
 	./debug1
 
 
-# Q2
-# take user input and pass to functions then execute the following using GitBash
-# At last comparison is done b/w republican  & dictatorial era
+<h1 align="center" >
+  Problem 2
+</h1>
 
-
-# Question 2
+#### Pass all values to the program while execution 
+##### Since new LTCG is applied from 2024 so year of selling and purchese should be between 2024 and 2029 -> Output will be Profit with respect to new Long-term Capital Gains Tax (LTCG) and different in taxation scheme.
 	g++ -c problem2.cpp
 	g++ -g -o debug2 problem2.o
 	g++ -O3 -o optimize2 problem2.o
 
 	./debug2
+<br/>
 
-
-# To remove all files created
-clean:
+#### To remove all files created
 	rm -f debug2 debug1 optimize2 optimize1 problem2.o problem1.o
