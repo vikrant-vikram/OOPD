@@ -59,7 +59,7 @@ class Property{
                 // year++;
             }
         }
-        double getLTCGRate(int sellingYear){
+        double getInflationRate(int sellingYear){
             //This function takes selling year and return corresponging years LTCGRate
             return data[sellingYear - baseYear][1];
         }
@@ -68,6 +68,7 @@ class Property{
             return data[sellingYear - baseYear][0];
         }
 };
+
 
 
 //This class have been is used to inplement effect of LTCG and Growth on property
@@ -94,7 +95,7 @@ class LTCG{
             double temp = 0;
             while (  current < year) {
                 // cout<<sellAt<< "Year "<< current << " Grouth "<<p.getGrowthPrice(current) << " LTCG "<<p.getLTCGRate(current) <<endl;
-                sellAt*=(1+((p.getGrowthPrice(current) - p.getLTCGRate(current))/100));
+                sellAt*=(1+((p.getGrowthPrice(current) - p.getInflationRate(current))/100));
                 current+=1;
             }
             return sellAt;
