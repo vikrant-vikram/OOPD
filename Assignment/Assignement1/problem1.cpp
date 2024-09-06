@@ -9,6 +9,10 @@
 
 
 
+const int numYears = 40;//USed to Create  Array of to Store Date
+const int baseYear = 2000;
+using namespace std;
+
 
 //Class is Used to store Data abput property
 //Such as Inflation , Growth Rate
