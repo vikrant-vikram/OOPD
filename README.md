@@ -1,5 +1,5 @@
 <div id="header" align="center">
-  <img src="https://giphy.com/embed/VePtB3roynxfLYicuV" width="100"/>
+ <iframe src="https://giphy.com/embed/VePtB3roynxfLYicuV" width="480" height="480" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
 </div>
 
 <h1 align="center" >
