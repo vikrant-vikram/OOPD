@@ -39,6 +39,6 @@ int main() {
     cin>>PurchasingPrice;
     cout<<endl;
     LTCG inf(PurchasingPrice, yearOfSelling, yearOfPurchase);
-    cout<<"Selling Price for the Propery in Year "<< yearOfSelling<< " be " <<inf.calculateSellingPrice(property)<< " Rs. Only\n";
+    cout<<fixed<<"Selling Price for the Propery in Year "<< yearOfSelling<< " be " <<inf.calculateSellingPrice(property)<< " Rs. Only\n";
     return 0;
 }

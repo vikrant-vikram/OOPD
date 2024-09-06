@@ -77,10 +77,10 @@ int main (){
     cin>>PurchasingPrice;
     cout<<endl;
     NewLTCG infNew(PurchasingPrice, yearOfSelling, yearOfPurchase);
-    cout<<"Selling Price for the Propery in Year "<< yearOfSelling<< " be " <<infNew.calculateSellingPrice(property)<< "Rs. Only\n";
-    cout<< "New Long-term Capital Gains Tax :"<< infNew.calculateLTCG(property)<<endl;
-    cout<< "Old Long-term Capital Gains Tax :"<< infOld.calculateLTCG(property)<<endl;
-    cout<< "Defference beteen New and Old  Long-term Capital Gains Tax :"<< infNew.calculateLTCG(property)- infOld.calculateLTCG(property)<<endl;
+    cout<<fixed<<"Selling Price for the Propery in Year "<< yearOfSelling<< " be " <<infNew.calculateSellingPrice(property)<< "Rs. Only\n";
+    cout<<fixed<< "New Long-term Capital Gains Tax :"<< infNew.calculateLTCG(property)<<endl;
+    cout<<fixed<< "Old Long-term Capital Gains Tax :"<< infOld.calculateLTCG(property)<<endl;
+    cout<<fixed<< "Defference beteen New and Old  Long-term Capital Gains Tax :"<< infNew.calculateLTCG(property)- infOld.calculateLTCG(property)<<endl;
 
     return 0;
 
