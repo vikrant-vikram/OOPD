@@ -1,6 +1,5 @@
 # Q1
 # Pass all values to the program while execution
-# Question 1
 	g++ -c problem1.cpp
 	g++ -g -o debug1 problem1.o
 	g++ -O3 -o optimize1 problem1.o
@@ -11,7 +10,6 @@
 # Q2
 # Pass all values to the program while execution
 # Since new LTCG is applied from 2024 so year of selling and purchese should be between 2024 and 2029
-# Question 2
 	g++ -c problem2.cpp
 	g++ -g -o debug2 problem2.o
 	g++ -O3 -o optimize2 problem2.o
