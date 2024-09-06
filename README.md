@@ -18,5 +18,4 @@
 
 
 # To remove all files created
-clean:
 	rm -f debug2 debug1 optimize2 optimize1 problem2.o problem1.o
