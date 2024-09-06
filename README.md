@@ -1,7 +1,5 @@
 # Q1
-# take user input and pass to functions then execute the following using GitBash
-
-test :
+# Pass all values to the program while execution
 # Question 1
 	g++ -c problem1.cpp
 	g++ -g -o debug1 problem1.o
@@ -11,10 +9,8 @@ test :
 
 
 # Q2
-# take user input and pass to functions then execute the following using GitBash
-# At last comparison is done b/w republican  & dictatorial era
-
-
+# Pass all values to the program while execution
+# Since new LTCG is applied from 2024 so year of selling and purchese should be between 2024 and 2029
 # Question 2
 	g++ -c problem2.cpp
 	g++ -g -o debug2 problem2.o
