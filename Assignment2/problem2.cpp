@@ -204,6 +204,10 @@ int main() {
         return 1;
     }
 
+
+    try{
+
+
     string name;
     cout << "Enter the name of the person: ";
     getline(cin, name);
@@ -213,6 +217,11 @@ int main() {
         person->displayInfo();
     } else {
         cout << "Person not found." << endl;
+    }
+
+    }
+    catch (...){
+        cout<<"give proper input"<<endl;
     }
 
     return 0;

@@ -138,16 +138,27 @@ int main() {
         return 1;
     }
 
-    string name;
-    cout << "Enter the name of the person: ";
-    getline(cin, name);
 
-    Person* person = adminData.findPerson(name);
-    if (person) {
-        person->displayInfo();
-    } else {
-        cout << "Person not found." << endl;
+    try{
+
+
+        string name;
+        cout << "Enter the name of the person: ";
+        getline(cin, name);
+
+        Person* person = adminData.findPerson(name);
+        if (person) {
+            person->displayInfo();
+        } else {
+            cout << "Person not found." << endl;
+        }
+
     }
+    catch (...){
+        cout<<"give proper input"<<endl;
+    }
+
+
 
     return 0;
 }

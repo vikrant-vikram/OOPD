@@ -122,12 +122,16 @@ int main() {
     string name;
     // cout << "Enter the name of the Deapratment: ";
     // getline(cin, name);
-
-
-    cout << "Enter no of days ";
+    // }
     int days;
-    cin>>days;
+    try{
+        cout << "Enter no of days ";
 
+        cin>>days;
+    }
+    catch (...){
+        cout<<"give proper input"<<endl;
+    }
     Person* person;
     if(days<=0)
     cout<<"Invailid no of days\n";
