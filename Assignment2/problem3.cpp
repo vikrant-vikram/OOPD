@@ -94,8 +94,7 @@ void loadAdminData(const string& filename, AdminData& adminData) {
         getline(ss, phone, ',');
         getline(ss, position, ',');
         getline(ss, department, ','); // Read position
-        // Read position
-        //
+
         // cout<<department<<endl;
 
         Person* person = nullptr;
