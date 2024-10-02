@@ -226,14 +226,3 @@ int main() {
 
     return 0;
 }
-
-
-// cout << "Administrative Structure:\n" << endl;
-// cout << "ECE Department" << endl;
-// eceDepartment.displayMembers();
-// cout << "CSE Department" << endl;
-// cseDepartment.displayMembers();
-// cout << "SSH Department" << endl;
-// sshDepartment.displayMembers();
-// cout << "Math Department" << endl;
-// CB
