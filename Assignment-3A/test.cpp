@@ -80,12 +80,14 @@ int main() {
                 int platformNumber;
                 bool isThrough;
                 string temp_time;
-                cout<<"Enter train number, train time, platform number and isThrough\n";
+                cout<<"Enter train number\n";
                 cin>>trainNumber;
                 cout << "Enter time in 24-hour format (HH:MM): ";
                 cin>> temp_time;
                 trainTime = timeToInt(temp_time);
+                cout<<"Enter platform number\n";
                 cin>>platformNumber;
+                cout<<"Enter isThrough\n";
                 cin>>isThrough;
                 Train train1(trainNumber, isThrough);
 
