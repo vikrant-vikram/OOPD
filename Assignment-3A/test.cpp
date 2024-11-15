@@ -2,8 +2,37 @@
 #include <vector>
 #include "station.cpp"
 #include "train.cpp"
+#include <string>
+#include <sstream>
+#include <stdexcept>
+
 
 using namespace std;
+
+
+int timeToInt(const std::string& time) {
+    int hours, minutes;
+    char colon;
+
+    // Use a stringstream to extract the hours and minutes
+    std::stringstream timeStream(time);
+
+    // Parse the time in "HH:MM" format
+    if (!(timeStream >> hours >> colon >> minutes) || colon != ':') {
+        throw std::invalid_argument("Invalid time format. Expected HH:MM.");
+    }
+
+    // Validate the range of hours and minutes
+    if (hours < 0 || hours >= 24 || minutes < 0 || minutes >= 60) {
+        throw std::out_of_range("Invalid time value. Hours should be 0-23 and minutes should be 0-59.");
+    }
+
+    // Convert time to integer in "HHMM" format
+    return hours * 100 + minutes;
+}
+
+
+
 
 int main() {
     try {
@@ -50,9 +79,12 @@ int main() {
                 int trainTime;
                 int platformNumber;
                 bool isThrough;
+                string temp_time;
                 cout<<"Enter train number, train time, platform number and isThrough\n";
                 cin>>trainNumber;
-                cin>>trainTime;
+                cout << "Enter time in 24-hour format (HH:MM): ";
+                cin>> temp_time;
+                trainTime = timeToInt(temp_time);
                 cin>>platformNumber;
                 cin>>isThrough;
                 Train train1(trainNumber, isThrough);
