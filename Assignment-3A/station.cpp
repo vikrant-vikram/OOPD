@@ -38,7 +38,7 @@ public:
 
         }
         else if (isThroughTrain && trainTime-max<10) {
-            throw out_of_range("Invailid time for a ThroughTrain.");
+            throw out_of_range("Invailid time for a Through Train.");
         }
         else if (!isThroughTrain && trainTime- max <30) {
             throw out_of_range("Invailid time for aTrain.");
