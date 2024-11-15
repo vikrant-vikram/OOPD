@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -std=c++11 -Wall -g
 
-SRCS = main.cpp Station.cpp Line.cpp Platform.cpp Train.cpp
+SRCS = test.cpp station.cpp line.cpp plateform.cpp train.cpp
 OBJS = $(SRCS:.cpp=.o)
 EXEC = railway_system
 

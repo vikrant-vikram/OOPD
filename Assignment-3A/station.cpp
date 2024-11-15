@@ -10,11 +10,12 @@ template <typename T>
 class Station {
 private:
     T stationID;
+    int max;
      vector<Line> lines;
      vector<Platform> platforms;
 
 public:
-    Station(T id) : stationID(id) {}
+    Station(T id) : stationID(id) { max = 0;}
 
     void addLine(const Line& line) {
         lines.push_back(line);
@@ -32,6 +33,18 @@ public:
         if (platformIndex < 0 || platformIndex >= platforms.size()) {
             throw  out_of_range("Invalid platform index.");
         }
+        else if (trainTime < 0){
+            out_of_range("Invalid train time.");
+
+        }
+        else if (isThroughTrain && trainTime-max<10) {
+            throw out_of_range("Invailid time for a ThroughTrain.");
+        }
+        else if (!isThroughTrain && trainTime- max <30) {
+            throw out_of_range("Invailid time for aTrain.");
+        }
+        max = trainTime;
+
         return platforms[platformIndex].canAccommodate(trainTime, isThroughTrain);
     }
 
