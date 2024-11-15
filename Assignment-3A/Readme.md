@@ -7,7 +7,7 @@
 
 # problem1
 
-For buiding the binary for this Question , we can either build it individually or build all the binaries and then run problem1_debug
+For buiding the binary for this Question , we can either build it as
 
 $ make
 $ ./railway_system
