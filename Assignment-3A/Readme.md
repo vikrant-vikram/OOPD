@@ -10,14 +10,4 @@
 For buiding the binary for this Question , we can either build it individually or build all the binaries and then run problem1_debug
 
 $ make
-$ ./problem1_debug
-    or
-$ ./problem1_opt
-
-    OR
-$ make problem1_debug
-$ ./problem1_debug
-
-
-
-<pre>
+$ ./railway_system
