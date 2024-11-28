@@ -1,22 +1,37 @@
 # WiFi Simulation Projects
 
-Welcome to the WiFi Simulation Projects repository! This collection includes simulations for WiFi 4, WiFi 5, and WiFi 6 using different communication protocols and features like CSI, OFDMA, and backoff mechanisms. The simulations are written in C++ and provide detailed results for throughput, latency, and other performance metrics.
+Welcome to the **WiFi Simulation Projects** repository! This collection contains simulations for **WiFi 4**, **WiFi 5**, and **WiFi 6**, using various communication protocols and advanced features like **CSI**, **OFDMA**, and **backoff mechanisms**. The simulations are written in **C++** and provide detailed results on key performance metrics, such as throughput, latency, and total simulation time.
+
+---
 
 ## Project Overview
 
-This repository contains three different WiFi simulation models:
-- **WiFi 4 Simulation**: Simulates the behavior of WiFi 4 using basic packet transmission.
-- **WiFi 5 Simulation**: Simulates WiFi 5 communication with enhanced packet scheduling and parallel communication.
-- **WiFi 6 Simulation**: Simulates WiFi 6 communication with Orthogonal Frequency Division Multiple Access (OFDMA) and dynamic sub-channel usage.
+This repository features three different WiFi simulation models that simulate network performance under different WiFi standards:
 
-Each simulation involves varying the number of users and adjusting parameters like sub-channel width for WiFi 6 to evaluate performance under different conditions.
+### 1. **WiFi 4 Simulation**
+- Simulates basic packet transmission and calculates throughput for WiFi 4.
+- Provides insights into how WiFi 4 behaves with a fixed number of users.
+
+### 2. **WiFi 5 Simulation**
+- Implements enhanced packet scheduling and parallel communication.
+- Simulates CSI packet exchanges and parallel transmission for up to 15 ms.
+
+### 3. **WiFi 6 Simulation**
+- Utilizes **Orthogonal Frequency Division Multiple Access (OFDMA)** for simultaneous communication.
+- Users are assigned different sub-channels, and performance is tested with varying sub-channel widths.
+
+Each simulation adjusts parameters like the number of users and sub-channel width (WiFi 6) to evaluate performance under different conditions.
+
+---
 
 ## Features
 
-- **WiFi 4 Simulation**: Basic packet transmission and throughput calculation.
-- **WiFi 5 Simulation**: Parallel communication and sequential CSI packet exchange between users.
-- **WiFi 6 Simulation**: OFDMA-based packet scheduling with different sub-channel widths.
+- **WiFi 4 Simulation**: Basic packet transmission, throughput, and latency calculation.
+- **WiFi 5 Simulation**: Parallel communication, CSI packet exchange, and enhanced scheduling.
+- **WiFi 6 Simulation**: OFDMA-based scheduling, sub-channel management, and width adjustment.
 - **Performance Metrics**: Throughput, average latency, maximum latency, and total simulation time.
+
+---
 
 ## Getting Started
 
@@ -24,8 +39,10 @@ To get started with the WiFi simulation projects, follow these steps to set up y
 
 ### Prerequisites
 
-- **C++ Compiler**: Requires a C++17 compatible compiler (e.g., `g++` or `clang++`).
-- **Make**: A build tool (e.g., GNU Make) for compiling and linking the source code.
+Before running the simulations, ensure that you have the following:
+
+- **C++ Compiler**: A C++17 compatible compiler (e.g., `g++` or `clang++`).
+- **Make**: A build tool (e.g., **GNU Make**) to compile and link the source code.
 
 ### Installation
 
@@ -46,6 +63,8 @@ Clean the Build: If you want to clean up the object files and the compiled binar
 make clean
 Directory Structure
 
+The project follows a simple directory structure:
+
 wifi-simulations/
 │
 ├── base.cpp          # Common logic for users, packets, and basic transmission
@@ -58,26 +77,24 @@ wifi-simulations/
 └── README.md         # This file
 Simulation Results
 
+Here are the results you can expect from the simulations:
+
 WiFi 4 Simulation:
-Throughput: Simulates the throughput with a fixed number of users (1, 10, 100).
+Throughput: Simulates throughput performance with 1, 10, or 100 users.
 Latency: Tracks the average and maximum latencies during the simulation.
 WiFi 5 Simulation:
-CSI Packet Exchange: Each user sends a CSI packet sequentially.
-Parallel Communication: Up to 15ms of parallel communication between users is simulated.
+CSI Packet Exchange: Simulates the sequential sending of CSI packets by users.
+Parallel Communication: Up to 15 ms of parallel communication is simulated.
 WiFi 6 Simulation:
 OFDMA: Users are assigned different sub-channels for simultaneous transmission.
-Sub-Channel Width: Different sub-channel widths (e.g., 20 MHz, 40 MHz, 80 MHz) are tested for their performance impact.
+Sub-Channel Width: Different sub-channel widths (20 MHz, 40 MHz, 80 MHz) are tested for performance impact.
 Example Output
 
-Running any of the simulations will provide you with results like:
+When running the simulations, you will receive detailed results for each scenario, like:
 
-WiFi 4 Simulation with 1 users:
-Throughput: 3.25 MB/s
-Average Latency: 0.021 seconds
-Maximum Latency: 0.035 seconds
-Total Simulation Time: 1.25 seconds
-Contributing
-
-
-
-GitHub: @vikrant-vikram
+WiFi 4 Simulation with 1 user:
+- Throughput: 3.25 MB/s
+- Average Latency: 0.021 seconds
+- Maximum Latency: 0.035 seconds
+- Total Simulation Time: 1.25 seconds
+You can experiment with different user counts (e.g., 1, 10, 100) and observe how throughput and latency are affected.
