@@ -67,18 +67,13 @@ WiFi 6:
 ./wifi6
 Clean the Build: To clean up the object files and binaries:
 make clean
-🗂️ Directory Structure
 
-wifi-simulations/
-│
-├── base.cpp          # Common logic for users, packets, and basic transmission
-├── constants.cpp     # Definitions of constants (e.g., DATA_RATE, PACKET_SIZE)
-├── includes.h        # Header file for commonly used constants and declarations
-├── problem1.cpp      # WiFi 4 simulation code
-├── problem2.cpp      # WiFi 5 simulation code
-├── problem3.cpp      # WiFi 6 simulation code
-├── Makefile          # Build instructions
-└── README.md         # This file
+## 🗂️ **Directory Structure**
+
+Here’s an overview of the directory structure in this repository:
+
+wifi-simulations/ │ ├── base.cpp # Common logic for users, packets, and basic transmission ├── constants.cpp # Definitions of constants (e.g., DATA_RATE, PACKET_SIZE) ├── includes.h # Header file for commonly used constants and declarations ├── problem1.cpp # WiFi 4 simulation code ├── problem2.cpp # WiFi 5 simulation code ├── problem3.cpp # WiFi 6 simulation code ├── Makefile # Build instructions └── README.md # This file
+# This file
 📊 Simulation Results
 
 WiFi 4 Simulation:
