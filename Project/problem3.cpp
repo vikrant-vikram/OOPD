@@ -1,21 +1,22 @@
-// main.cpp
-#include "includes.h"  // Include the constants and necessary header files
-#include "base.cpp"    // Include Packet and User class
-#include "constants.h" // Include the constants header file
+#include "includes.h"
+#include "base.cpp"
+#include "constants.h"
+
+using namespace std;
 
 class AccessPoint {
 private:
     double current_time;      // Tracks the current time in the simulation
     double total_throughput;  // Total data successfully transmitted
-    std::vector<double> latencies; // Stores latencies of transmitted packets
+    vector<double> latencies; // Stores latencies of transmitted packets
 
 public:
     AccessPoint() : current_time(0.0), total_throughput(0.0) {}
 
-    // Simulates WiFi 6 communication with OFDMA
-    void simulate(std::vector<User>& users, int sub_channel_width) {
+    // Simulates WiFi 6 communication with OFDMA and contention
+    void simulate(vector<User>& users, int sub_channel_width) {
         int sub_channel_count = BANDWIDTH / (sub_channel_width * 1e6); // Calculate number of sub-channels
-        double sub_channel_rate = TOTAL_DATA_RATE / sub_channel_count; // Data rate per sub-channel
+        double sub_channel_rate = (TOTAL_DATA_RATE / sub_channel_count) * 0.8; // Reduced efficiency factor
 
         while (true) {
             bool all_done = true;
@@ -37,8 +38,12 @@ public:
                             current_time = packet.arrival_time;
                         }
 
+                        // Introduce contention and backoff
+                        double contention_delay = (rand() % 10) * 0.0001; // Random backoff (0-1ms)
+                        current_time += contention_delay;
+
                         // Transmit the packet
-                        double transmission_time = packet.size * 8 / sub_channel_rate;
+                        double transmission_time = (packet.size * 8 / sub_channel_rate) * 1.1; // Slight inefficiency factor
                         if (current_time + transmission_time <= parallel_end_time) {
                             current_time += transmission_time;
                             total_throughput += packet.size;
@@ -62,49 +67,53 @@ public:
         }
     }
 
-    // Returns simulation results as a string for easy logging with colors
-    std::string getResults(int num_users, int sub_channel_width) {
-        double average_latency = std::accumulate(latencies.begin(), latencies.end(), 0.0) / latencies.size();
-        double max_latency = *std::max_element(latencies.begin(), latencies.end());
+    // Returns simulation results with color support
+    string getResults(int num_users, int sub_channel_width, const string& color) {
+        double average_latency = accumulate(latencies.begin(), latencies.end(), 0.0) / latencies.size();
+        double max_latency = *max_element(latencies.begin(), latencies.end());
         double throughput = total_throughput / current_time; // Throughput in bytes per second
 
-        std::ostringstream oss;
-        oss << CYAN << "WiFi 6 Simulation with " << num_users << " users and "
+        ostringstream oss;
+        oss << color << "WiFi 6 Simulation with " << num_users << " users and "
             << sub_channel_width << " MHz sub-channels:\n" << RESET
-            << GREEN << "Throughput: " << throughput / 1e6 << " MB/s\n" << RESET
-            << YELLOW << "Average Latency: " << average_latency << " seconds\n" << RESET
-            << MAGENTA << "Maximum Latency: " << max_latency << " seconds\n" << RESET
-            << BLUE << "Total Simulation Time: " << current_time << " seconds\n" << RESET;
+            << color << "Throughput: " << throughput / 1e6 << " MB/s\n" << RESET
+            << color << "Average Latency: " << average_latency << " seconds\n" << RESET
+            << color << "Maximum Latency: " << max_latency << " seconds\n" << RESET
+            << color << "Total Simulation Time: " << current_time << " seconds\n" << RESET;
         return oss.str();
     }
 };
-
-// Main function
 int main() {
-    std::srand(time(0)); // Seed for randomness (if needed)
+    srand(time(0)); // Seed for randomness
 
-    std::cout << CYAN << "WiFi 6 Simulation Results:" << RESET << "\n";
-    std::cout << "---------------------------------------------\n";
+    cout << CYAN << "WiFi 6 Simulation Results:" << RESET << "\n";
+    cout << "---------------------------------------------\n";
+
+    // Colors for alternating output
+    vector<string> colors = {CYAN, MAGENTA, YELLOW, GREEN, BLUE};
 
     // Store results
-    std::ostringstream log_output;
+    ostringstream log_output;
+
+    int color_index = 0; // To alternate colors
 
     // Simulation cases
     for (int sub_channel_width : SUB_CHANNELS) {
         // Case 1: 1 user and 1 AP
         {
-            std::vector<User> users;
+            vector<User> users;
             users.emplace_back(0); // Single user
             users[0].generatePackets(10, 0.0); // Generate packets
 
             AccessPoint ap;
             ap.simulate(users, sub_channel_width);
-            log_output << ap.getResults(1, sub_channel_width);
+            log_output << ap.getResults(1, sub_channel_width, colors[color_index]);
+            color_index = (color_index + 1) % colors.size(); // Alternate color
         }
 
         // Case 2: 10 users and 1 AP
         {
-            std::vector<User> users;
+            vector<User> users;
             for (int i = 0; i < 10; ++i) {
                 users.emplace_back(i); // Create 10 users
                 users[i].generatePackets(10, 0.0); // Generate packets
@@ -112,12 +121,13 @@ int main() {
 
             AccessPoint ap;
             ap.simulate(users, sub_channel_width);
-            log_output << ap.getResults(10, sub_channel_width);
+            log_output << ap.getResults(10, sub_channel_width, colors[color_index]);
+            color_index = (color_index + 1) % colors.size(); // Alternate color
         }
 
         // Case 3: 100 users and 1 AP
         {
-            std::vector<User> users;
+            vector<User> users;
             for (int i = 0; i < 100; ++i) {
                 users.emplace_back(i); // Create 100 users
                 users[i].generatePackets(10, 0.0); // Generate packets
@@ -125,12 +135,13 @@ int main() {
 
             AccessPoint ap;
             ap.simulate(users, sub_channel_width);
-            log_output << ap.getResults(100, sub_channel_width);
+            log_output << ap.getResults(100, sub_channel_width, colors[color_index]);
+            color_index = (color_index + 1) % colors.size(); // Alternate color
         }
     }
 
     // Output all results at once
-    std::cout << log_output.str();
+    cout << log_output.str();
 
     return 0;
 }

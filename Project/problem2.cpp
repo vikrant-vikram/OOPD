@@ -1,19 +1,19 @@
+#include "includes.h"
+#include "base.cpp"
+#include "constants.h"
 
-#include "includes.h"  // Include the constants and necessary header files
-#include "base.cpp"    // Include Packet and User class
-#include "constants.h" // Include the constants header file
-
+using namespace std;
 class AccessPoint {
 private:
     double current_time;      // Tracks the current time in the simulation
     double total_throughput;  // Total data successfully transmitted
-    std::vector<double> latencies; // Stores latencies of transmitted packets
+    vector<double> latencies; // Stores latencies of transmitted packets
 
 public:
     AccessPoint() : current_time(0.0), total_throughput(0.0) {}
 
     // Simulates WiFi 5 communication
-    void simulate(std::vector<User>& users) {
+    void simulate(vector<User>& users) {
         while (true) {
             bool all_done = true;
 
@@ -63,41 +63,39 @@ public:
         }
     }
 
-    // Prints simulation results with colors
-    void printResults(int num_users) {
-        double average_latency = std::accumulate(latencies.begin(), latencies.end(), 0.0) / latencies.size();
-        double max_latency = *std::max_element(latencies.begin(), latencies.end());
+    // Prints simulation results with a specific color
+    void printResults(int num_users, const string& color) {
+        double average_latency = accumulate(latencies.begin(), latencies.end(), 0.0) / latencies.size();
+        double max_latency = *max_element(latencies.begin(), latencies.end());
         double throughput = total_throughput / current_time; // Throughput in bytes per second
 
-        std::cout << CYAN << "WiFi 5 Simulation with " << num_users << " users:" << RESET << "\n";
-        std::cout << GREEN << "Throughput: " << throughput / 1e6 << " MB/s" << RESET << "\n";
-        std::cout << YELLOW << "Average Latency: " << average_latency << " seconds" << RESET << "\n";
-        std::cout << MAGENTA << "Maximum Latency: " << max_latency << " seconds" << RESET << "\n";
-        std::cout << BLUE << "Total Simulation Time: " << current_time << " seconds" << RESET << "\n\n";
+        cout << color << "WiFi 5 Simulation with " << num_users << " users:" << RESET << "\n";
+        cout << color << "Throughput: " << throughput / 1e6 << " MB/s" << RESET << "\n";
+        cout << color << "Average Latency: " << average_latency << " seconds" << RESET << "\n";
+        cout << color << "Maximum Latency: " << max_latency << " seconds" << RESET << "\n";
+        cout << color << "Total Simulation Time: " << current_time << " seconds" << RESET << "\n\n";
     }
 };
-
-// Main function
 int main() {
-    std::srand(time(0)); // Seed for randomness (if needed)
+    srand(time(0)); // Seed for randomness (if needed)
 
-    std::cout << CYAN << "WiFi 5 Simulation Results:" << RESET << "\n";
-    std::cout << "---------------------------------------------\n";
+    cout << CYAN << "WiFi 5 Simulation Results:" << RESET << "\n";
+    cout << "---------------------------------------------\n";
 
     // Case 1: 1 user and 1 AP
     {
-        std::vector<User> users;
+        vector<User> users;
         users.emplace_back(0); // Single user
         users[0].generatePackets(10, 0.0); // Generate packets
 
         AccessPoint ap;
         ap.simulate(users);
-        ap.printResults(1);
+        ap.printResults(1, CYAN); // Print in CYAN
     }
 
     // Case 2: 10 users and 1 AP
     {
-        std::vector<User> users;
+        vector<User> users;
         for (int i = 0; i < 10; ++i) {
             users.emplace_back(i); // Create 10 users
             users[i].generatePackets(10, 0.0); // Generate packets
@@ -105,12 +103,12 @@ int main() {
 
         AccessPoint ap;
         ap.simulate(users);
-        ap.printResults(10);
+        ap.printResults(10, MAGENTA); // Print in MAGENTA
     }
 
     // Case 3: 100 users and 1 AP
     {
-        std::vector<User> users;
+        vector<User> users;
         for (int i = 0; i < 100; ++i) {
             users.emplace_back(i); // Create 100 users
             users[i].generatePackets(10, 0.0); // Generate packets
@@ -118,7 +116,7 @@ int main() {
 
         AccessPoint ap;
         ap.simulate(users);
-        ap.printResults(100);
+        ap.printResults(100, YELLOW); // Print in YELLOW
     }
 
     return 0;
