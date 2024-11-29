@@ -1,12 +1,24 @@
-#include "includes.h"
-#include "base.cpp"
-#include "constants.h"
+// 3. WiFi 6 Communication WiFi 6 allowed a yet new type of communica-
+// tion, using OFDMA. In this case, a second type of parallel transmission
+
+// was allowed, where the 20 MHz channel could be further subdivided into
+// units of 2 MHz, 4 MHz or 10 MHz, and each of these sub-channels could
+// be utilized in parallel for a total of 5ms. After 5ms, the channel allocation
+
+// is done once again. Again, find out the throughput, average and maxi-
+// mum latency in each of the above cases, using a process of round-robin
+
+// scheduling of the users.
+
+#include "includes.h"  // Include constants and macros
+#include "base.cpp"    // Include Packet and User classes
+#include "constants.h" // Include constants
 
 using namespace std;
 
 class AccessPoint {
 private:
-    double current_time;      // Tracks the current time in the simulation
+    double current_time;      // Tracks current time in the simulation
     double total_throughput;  // Total data successfully transmitted
     vector<double> latencies; // Stores latencies of transmitted packets
 
@@ -83,6 +95,7 @@ public:
         return oss.str();
     }
 };
+
 int main() {
     srand(time(0)); // Seed for randomness
 
@@ -97,7 +110,7 @@ int main() {
 
     int color_index = 0; // To alternate colors
 
-    // Simulation cases
+    // Simulation cases for different sub-channel widths
     for (int sub_channel_width : SUB_CHANNELS) {
         // Case 1: 1 user and 1 AP
         {
