@@ -42,5 +42,6 @@ const double PARALLEL_TIME = 0.015;  // Parallel communication time in seconds (
 #define BLUE    "\033[34m"
 #define MAGENTA "\033[35m"
 #define CYAN    "\033[36m"
+std::mutex simulation_mutex;
 
 #endif // CONSTANTS_H

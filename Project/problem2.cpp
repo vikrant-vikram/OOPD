@@ -101,7 +101,7 @@ public:
 
             cout << color << "WiFi 5 Simulation with " << num_users << " users:\n" << RESET;
             frequency.printFrequencyInfo(); // Show frequency configuration
-            cout << color << "Throughput: " << throughput / 1e6 << " MB/s" << RESET << "\n";
+            cout << color << "Throughput: " << throughput / 1e6  << " MB/s" << RESET << "\n";
             cout << color << "Average Latency: " << average_latency << " seconds" << RESET << "\n";
             cout << color << "Maximum Latency: " << max_latency << " seconds" << RESET << "\n";
             cout << color << "Total Simulation Time: " << current_time << " seconds\n" << RESET << "\n";
