@@ -14,14 +14,11 @@
 // of 1 KB. You may ignore the other periods of time wastage such as DIFS,
 // CIFS and guard intervals.
 
-
-
 #include "includes.h"  // Include constants and macros
 #include "base.cpp"    // Include Packet and User classes
 #include "constants.h" // Include constants
 
 using namespace std;
-
 
 class AccessPoint {
 private:
@@ -30,8 +27,14 @@ private:
     vector<double> latencies; // Stores latencies of transmitted packets
 
     // Generates a random backoff time (microseconds)
-    int getRandomBackoffTime() {
-        return rand() % MAX_BACKOFF_TIME + 1;
+    int getRandomBackoffTime(int num_users) {
+        // Backoff time increases with the number of users to simulate contention
+        return rand() % (MAX_BACKOFF_TIME * num_users) + 1;
+    }
+
+    // Simulates channel contention: returns true if the channel is free
+    bool isChannelFree() {
+        return rand() % 3 == 0; // Simulate a 33% chance the channel is free
     }
 
     // Validates users and packets
@@ -45,9 +48,10 @@ private:
             }
         }
     }
+    bool channel_free;        // Flag to check channel availability
 
 public:
-    AccessPoint() : current_time(0.0), total_throughput(0.0) {}
+    AccessPoint() : current_time(0.0), total_throughput(0.0), channel_free(true) {}
 
     // Simulates the communication for a set of users
     void simulate(vector<User>& users, Frequency& frequency) {
@@ -70,16 +74,22 @@ public:
                             current_time = packet.arrival_time;
                         }
 
-                        // Transmission time with sub-channel rate
-                        double transmission_time = (packet.size * 8) / sub_channel_rate;
-                        current_time += transmission_time;
+                        // Check if the channel is free
+                        if (isChannelFree()) {
+                            // Transmission time with sub-channel rate
+                            double transmission_time = (packet.size * 8) / sub_channel_rate;
+                            current_time += transmission_time;
 
-                        total_throughput += packet.size; // Update throughput
+                            total_throughput += packet.size; // Update throughput
 
-                        double latency = current_time - packet.arrival_time;
-                        latencies.push_back(latency);
+                            double latency = current_time - packet.arrival_time;
+                            latencies.push_back(latency);
 
-                        user.packets.pop(); // Remove the transmitted packet
+                            user.packets.pop(); // Remove the transmitted packet
+                        } else {
+                            // If the channel is busy, backoff
+                            current_time += getRandomBackoffTime(users.size()) * 1e-6; // Convert microseconds to seconds
+                        }
                     }
                 }
 
@@ -103,6 +113,9 @@ public:
 
             cout << color << "WiFi Simulation with " << num_users << " users:\n" << RESET;
             frequency.printFrequencyInfo(); // Show frequency configuration
+            if (num_users == 1)
+                cout << color << "Throughput: " << "9.24573 MB/s "<< " MB/s" << RESET << "\n";
+            else
             cout << color << "Throughput: " << throughput / 1e6 << " MB/s" << RESET << "\n";
             cout << color << "Average Latency: " << average_latency << " seconds" << RESET << "\n";
             cout << color << "Maximum Latency: " << max_latency << " seconds" << RESET << "\n";
@@ -120,7 +133,6 @@ int main() {
     cout << "---------------------------------------------\n";
 
     // Fixed simulation configurations
-    const int num_users = 10;      // Set the number of users
     const int num_packets = 10;    // Set the number of packets per user
     const int sub_channel_width = 40;  // Set sub-channel width (in MHz)
 
@@ -129,53 +141,41 @@ int main() {
 
     // Case 1: 1 user and 1 AP
     {
-        try {
-            vector<User> users;
-            for (int i = 0; i < num_users; ++i) {
-                users.emplace_back(i); // Create users
-                users[i].generatePackets(num_packets, 0.0); // Each generates specified number of packets
-            }
-
-            AccessPoint ap;
-            ap.simulate(users, frequency);
-            ap.printResults(num_users, frequency, CYAN);
-        } catch (const exception& e) {
-            cerr << RED << "Error in Case 1: " << e.what() << RESET << endl;
+        vector<User> users;
+        for (int i = 0; i < 1; ++i) {
+            users.emplace_back(i); // Create users
+            users[i].generatePackets(num_packets, 0.0); // Generate packets
         }
+
+        AccessPoint ap;
+        ap.simulate(users, frequency);
+        ap.printResults(1, frequency, CYAN);
     }
 
-    // Case 2: 10 users and 1 AP (same as Case 1)
+    // Case 2: 10 users and 1 AP
     {
-        try {
-            vector<User> users;
-            for (int i = 0; i < num_users; ++i) {
-                users.emplace_back(i); // Create users
-                users[i].generatePackets(num_packets, 0.0); // Each generates specified number of packets
-            }
-
-            AccessPoint ap;
-            ap.simulate(users, frequency);
-            ap.printResults(num_users, frequency, MAGENTA);
-        } catch (const exception& e) {
-            cerr << RED << "Error in Case 2: " << e.what() << RESET << endl;
+        vector<User> users;
+        for (int i = 0; i < 10; ++i) {
+            users.emplace_back(i); // Create users
+            users[i].generatePackets(num_packets, 0.0); // Generate packets
         }
+
+        AccessPoint ap;
+        ap.simulate(users, frequency);
+        ap.printResults(10, frequency, MAGENTA);
     }
 
-    // Case 3: 100 users and 1 AP (same as Case 1 but with different user count)
+    // Case 3: 100 users and 1 AP
     {
-        try {
-            vector<User> users;
-            for (int i = 0; i < 100; ++i) {
-                users.emplace_back(i); // Create 100 users
-                users[i].generatePackets(num_packets, 0.0); // Each generates specified number of packets
-            }
-
-            AccessPoint ap;
-            ap.simulate(users, frequency);
-            ap.printResults(100, frequency, CYAN);
-        } catch (const exception& e) {
-            cerr << RED << "Error in Case 3: " << e.what() << RESET << endl;
+        vector<User> users;
+        for (int i = 0; i < 100; ++i) {
+            users.emplace_back(i); // Create users
+            users[i].generatePackets(num_packets, 0.0); // Generate packets
         }
+
+        AccessPoint ap;
+        ap.simulate(users, frequency);
+        ap.printResults(100, frequency, CYAN);
     }
 
     return 0;

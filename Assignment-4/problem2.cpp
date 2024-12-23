@@ -7,7 +7,7 @@
 #include <vector>
 #include <regex>
 
-#include "problem1h.cpp"
+#include "problem1h.cpp" // Assuming this contains Affiliation, Author, and Publication classes
 
 using namespace std;
 
@@ -169,6 +169,5 @@ void parseBibTeX(const string& filePath) {
 int main() {
     string filePath = "publist.bib"; // Provide the correct file path
     parseBibTeX(filePath);
-    cout<<"chekk";
     return 0;
 }

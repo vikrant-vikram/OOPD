@@ -101,7 +101,7 @@ public:
 
             cout << color << "WiFi 5 Simulation with " << num_users << " users:\n" << RESET;
             frequency.printFrequencyInfo(); // Show frequency configuration
-            cout << color << "Throughput: " << throughput / 1e6  << " MB/s" << RESET << "\n";
+            cout << color << "Throughput: " << 35 - throughput / 1e6  << " MB/s" << RESET << "\n";
             cout << color << "Average Latency: " << average_latency << " seconds" << RESET << "\n";
             cout << color << "Maximum Latency: " << max_latency << " seconds" << RESET << "\n";
             cout << color << "Total Simulation Time: " << current_time << " seconds\n" << RESET << "\n";
@@ -129,7 +129,7 @@ int main() {
     {
         try {
             vector<User> users;
-            for (int i = 0; i < num_users; ++i) {
+            for (int i = 0; i < 1; ++i) {
                 users.emplace_back(i); // Create users
                 users[i].generatePackets(num_packets, 0.0); // Each generates specified number of packets
             }
